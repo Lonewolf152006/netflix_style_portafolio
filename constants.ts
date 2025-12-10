@@ -1,4 +1,5 @@
 
+
 import { Project, Profile } from './types';
 
 export const PROFILES: Profile[] = [
@@ -6,6 +7,38 @@ export const PROFILES: Profile[] = [
     id: '1', 
     name: 'Recruiter', 
     avatar: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' // Classic Red Smile
+  }
+];
+
+// --- HERO VIDEO OPTIONS ---
+export const HERO_VIDEO_OPTIONS = [
+  {
+    id: 'v1',
+    label: 'Cyber Security',
+    // Abstract Red/Black Tech
+    url: 'https://videos.pexels.com/video-files/2061191/2061191-uhd_2560_1440_30fps.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=200&auto=format&fit=crop'
+  },
+  {
+    id: 'v2',
+    label: 'Deep Focus',
+    // Developer Typing / Coding
+    url: 'https://videos.pexels.com/video-files/853789/853789-hd_1920_1080_25fps.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=200&auto=format&fit=crop'
+  },
+  {
+    id: 'v3',
+    label: 'Data Center',
+    // Server Room / Blue Tech
+    url: 'https://videos.pexels.com/video-files/3252451/3252451-uhd_2560_1440_25fps.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1558494949-efc535b5c47c?q=80&w=200&auto=format&fit=crop'
+  },
+  {
+    id: 'v4',
+    label: 'Teamwork',
+    // Office / Whiteboard
+    url: 'https://videos.pexels.com/video-files/3255275/3255275-hd_1920_1080_25fps.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=200&auto=format&fit=crop'
   }
 ];
 
@@ -145,8 +178,7 @@ export const HERO_PROJECT: Project = {
   title: 'VEDANT NIKUMBH',
   description: '', // Cleared as requested
   imageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop', // Matrix/Tech BG
-  // Cinematic Abstract Red/Black Technology Video (Netflix Style)
-  videoUrl: 'https://videos.pexels.com/video-files/2061191/2061191-uhd_2560_1440_30fps.mp4',
+  videoUrl: HERO_VIDEO_OPTIONS[0].url, // Default to first option
   techStack: [],
   match: 100,
   year: '2024',

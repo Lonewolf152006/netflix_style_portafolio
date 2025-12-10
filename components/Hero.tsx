@@ -1,7 +1,8 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Project } from '../types';
 import { DownloadIcon, InfoIcon } from './Icons';
+import { HERO_VIDEO_OPTIONS } from '../constants';
 
 interface HeroProps {
   project: Project;
@@ -11,48 +12,44 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ project, onExploreClick, onAboutClick }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [activeVideo, setActiveVideo] = useState(HERO_VIDEO_OPTIONS[0]);
 
   useEffect(() => {
     if (videoRef.current) {
-        // Ensure initial state matches the video element
+        // Force reload of video source when activeVideo changes
+        videoRef.current.load();
+        
+        // Ensure muted is set (required for autoplay in most browsers)
         videoRef.current.muted = true;
         
         // Attempt autoplay
         const playPromise = videoRef.current.play();
         if (playPromise !== undefined) {
             playPromise.catch(() => {
-                // Autoplay was prevented
-                console.log("Autoplay prevented");
+                // Autoplay was prevented - standard browser behavior for unmuted or low-power mode
+                // Silently failing is acceptable for a background video
             });
         }
     }
-  }, [project.videoUrl]);
+  }, [activeVideo]);
 
   return (
     <div className="relative h-[100dvh] w-full overflow-hidden bg-[#141414]" role="banner">
       {/* Background Media Container */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         
-        {/* Background Video or Image */}
-        {project.videoUrl ? (
-             <video 
-                ref={videoRef}
-                autoPlay 
-                muted 
-                loop 
-                playsInline
-                poster={project.imageUrl}
-                className="absolute inset-0 w-full h-full object-cover slow-zoom"
-             >
-                 <source src={project.videoUrl} type="video/mp4" />
-             </video>
-        ) : (
-            <img 
-              src={project.imageUrl} 
-              alt={project.title} 
-              className="absolute inset-0 w-full h-full object-cover object-center slow-zoom"
-            />
-        )}
+        {/* Background Video */}
+         <video 
+            ref={videoRef}
+            autoPlay 
+            muted 
+            loop 
+            playsInline
+            poster={activeVideo.thumbnail}
+            className="absolute inset-0 w-full h-full object-cover slow-zoom"
+         >
+             <source src={activeVideo.url} type="video/mp4" />
+         </video>
         
         {/* Cinematic Gradients - Darker overlays for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/40 to-transparent z-10" />
@@ -108,8 +105,31 @@ const Hero: React.FC<HeroProps> = ({ project, onExploreClick, onAboutClick }) =>
         </div>
       </div>
 
-       {/* Video Controls & Maturity Rating */}
-       <div className="absolute right-0 bottom-24 md:bottom-32 z-50 flex items-center justify-end gap-4 w-full px-4 md:px-16 pointer-events-auto">
+       {/* Video Scene Selection & Maturity Rating */}
+       <div className="absolute right-0 bottom-24 md:bottom-32 z-50 flex flex-col items-end md:items-end justify-end gap-6 w-full px-4 md:px-16 pointer-events-auto">
+           
+           {/* Scene Selection Controls */}
+           <div className="flex flex-col items-end gap-2 animate-fade-in" style={{ animationDelay: '1000ms' }}>
+              <span className="text-gray-300 text-[10px] uppercase tracking-widest font-bold drop-shadow-md mb-1 mr-1 bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">Select Theme</span>
+              <div className="flex items-center gap-3 p-2 bg-black/20 backdrop-blur-md rounded-lg border border-white/10">
+                 {HERO_VIDEO_OPTIONS.map((video) => (
+                    <button
+                      key={video.id}
+                      onClick={() => setActiveVideo(video)}
+                      className={`relative w-12 h-8 md:w-16 md:h-10 rounded overflow-hidden border-2 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white group ${activeVideo.id === video.id ? 'border-[#E50914] scale-105 shadow-[0_0_10px_rgba(229,9,20,0.5)]' : 'border-gray-500/50 grayscale hover:grayscale-0 hover:border-white'}`}
+                      aria-label={`Switch background to ${video.label}`}
+                      title={video.label}
+                    >
+                      <img src={video.thumbnail} alt={video.label} className="w-full h-full object-cover" />
+                      {/* Tooltip */}
+                      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/90 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700">
+                        {video.label}
+                      </div>
+                    </button>
+                 ))}
+              </div>
+           </div>
+
            {/* Maturity Rating */}
            <div className="hidden md:flex bg-gray-500/30 border-l-4 border-gray-100 py-1 pl-3 pr-8 backdrop-blur-sm text-white font-medium text-sm">
                JOB READY

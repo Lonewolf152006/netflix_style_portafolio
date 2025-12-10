@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import ProfileSelector from './components/ProfileSelector';
 import Navbar from './components/Navbar';
@@ -178,24 +177,21 @@ const App: React.FC = () => {
         <div className="flex gap-4 mb-4 text-white text-lg">
            {/* Social Icons could go here */}
         </div>
-        <p className="mb-4">Questions? Contact me directly.</p>
+        <p className="mb-4">Questions? Contact me directly via Email or LinkedIn.</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-4 mb-6">
-            <span className="hover:underline cursor-pointer">Audio and Subtitles</span>
-            <span className="hover:underline cursor-pointer">Help Center</span>
-            <span className="hover:underline cursor-pointer">Media Center</span>
-            <span className="hover:underline cursor-pointer">Investor Relations</span>
-            <span className="hover:underline cursor-pointer">Jobs</span>
-            <span className="hover:underline cursor-pointer">Terms of Use</span>
-            <span className="hover:underline cursor-pointer">Privacy</span>
-            <span className="hover:underline cursor-pointer">Legal Notices</span>
-            <span className="hover:underline cursor-pointer">Cookie Preferences</span>
-            <span className="hover:underline cursor-pointer">Corporate Information</span>
-            <span className="hover:underline cursor-pointer">Contact Us</span>
+            <span className="hover:underline cursor-pointer">Projects</span>
+            <span className="hover:underline cursor-pointer">Skills</span>
+            <span className="hover:underline cursor-pointer">Experience</span>
+            <span className="hover:underline cursor-pointer">Education</span>
+            <span className="hover:underline cursor-pointer">Contact</span>
+            <span className="hover:underline cursor-pointer">GitHub</span>
+            <span className="hover:underline cursor-pointer">LinkedIn</span>
+            <span className="hover:underline cursor-pointer">Resume</span>
         </div>
         <button className="border border-gray-500 p-2 hover:text-white mb-4">
-            Service Code
+            English
         </button>
-        <p className="text-[11px]">&copy; 2024 Netfolio, Inc.</p>
+        <p className="text-[11px]">&copy; 2024 Vedant Nikumbh. All rights reserved.</p>
       </footer>
     </div>
   );
