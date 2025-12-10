@@ -17,6 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Show repo root (debug)
+        run: |
+          echo "WORKSPACE: $GITHUB_WORKSPACE"
+          pwd
+          ls -la
+
       - name: Use Node.js 18
         uses: actions/setup-node@v4
         with:
@@ -24,9 +30,11 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies (use npm ci if lockfile exists)
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
         run: |
-          if [ -f package-lock.json ]; then
-            echo "package-lock.json found — running npm ci"
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ] || [ -f yarn.lock ]; then
+            echo "Lockfile found — running npm ci"
             npm ci
           else
             echo "No lockfile found — running npm install"
@@ -34,6 +42,8 @@ jobs:
           fi
 
       - name: Build site
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
         run: npm run build
 
       - name: Show build output (debug)
@@ -46,5 +56,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          # optional: customize commit info
-          # commit_message: "Deploy to GitHub Pages from ${GITHUB_REF}"
