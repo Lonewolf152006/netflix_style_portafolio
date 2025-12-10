@@ -58,10 +58,13 @@ export const askGemini = async (query: string): Promise<string> => {
   try {
     const client = getClient();
     const response = await client.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-pro-preview',
       contents: query,
       config: {
         systemInstruction: PORTFOLIO_CONTEXT,
+        thinkingConfig: {
+          thinkingBudget: 32768, 
+        },
       }
     });
     

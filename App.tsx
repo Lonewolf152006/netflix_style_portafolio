@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+
+
+import React, { useState, useEffect } from 'react';
 import ProfileSelector from './components/ProfileSelector';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Row from './components/Row';
 import SkillsGrid from './components/SkillsGrid';
 import DetailModal from './components/DetailModal';
-import SearchOverlay from './components/SearchOverlay';
 import ScrollReveal from './components/ScrollReveal';
+import ScrollToTop from './components/ScrollToTop';
 import { 
   PROFILES, 
   HERO_PROJECT, 
@@ -25,7 +27,15 @@ import { Profile, Project } from './types';
 const App: React.FC = () => {
   const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Simulate initial data fetching
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500); // 1.5s loading simulation
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleDownloadResume = () => {
     // Placeholder for PDF download functionality
@@ -57,7 +67,6 @@ const App: React.FC = () => {
     <div className="bg-[#141414] min-h-screen text-white overflow-x-hidden font-sans">
       <Navbar 
         profile={currentProfile} 
-        onSearchClick={() => setIsSearchOpen(true)}
       />
       
       {/* Personal Branding Hero */}
@@ -76,6 +85,7 @@ const App: React.FC = () => {
               title="Work Experience" 
               projects={EXPERIENCE} 
               onProjectClick={setSelectedProject}
+              isLoading={loading}
           />
         </ScrollReveal>
 
@@ -85,6 +95,7 @@ const App: React.FC = () => {
               title="Education" 
               projects={EDUCATION} 
               onProjectClick={setSelectedProject}
+              isLoading={loading}
           />
         </ScrollReveal>
         
@@ -94,6 +105,7 @@ const App: React.FC = () => {
               title="My Certifications" 
               projects={CERTIFICATIONS} 
               onProjectClick={setSelectedProject}
+              isLoading={loading}
           />
         </ScrollReveal>
 
@@ -103,25 +115,30 @@ const App: React.FC = () => {
               title="Ongoing Learning" 
               projects={ONGOING_CERTIFICATIONS} 
               onProjectClick={setSelectedProject}
+              isLoading={loading}
           />
         </ScrollReveal>
 
         {/* Section 4: Skills */}
-        <ScrollReveal>
-          <SkillsGrid 
-              title="Skills & Technologies" 
-              skills={SKILLS} 
-              onSkillClick={setSelectedProject}
-          />
-        </ScrollReveal>
+        <div id="skills-section" className="scroll-mt-24">
+            <ScrollReveal>
+            <SkillsGrid 
+                title="Skills" 
+                skills={SKILLS} 
+                onSkillClick={setSelectedProject}
+                isLoading={loading}
+            />
+            </ScrollReveal>
+        </div>
 
         {/* Section 5: Software Projects */}
-        <div id="projects-section">
+        <div id="projects-section" className="scroll-mt-24">
           <ScrollReveal>
               <Row 
                   title="Software Projects" 
                   projects={SOFTWARE_PROJECTS} 
                   onProjectClick={setSelectedProject}
+                  isLoading={loading}
               />
           </ScrollReveal>
         </div>
@@ -132,16 +149,18 @@ const App: React.FC = () => {
               title="Hardware Projects" 
               projects={HARDWARE_PROJECTS} 
               onProjectClick={setSelectedProject}
+              isLoading={loading}
           />
         </ScrollReveal>
 
         {/* Section 7: Contact */}
-        <div id="contact-section">
+        <div id="contact-section" className="scroll-mt-24">
           <ScrollReveal>
               <Row 
                   title="Connect With Me" 
                   projects={CONTACT} 
                   onProjectClick={setSelectedProject}
+                  isLoading={loading}
               />
           </ScrollReveal>
         </div>
@@ -151,18 +170,15 @@ const App: React.FC = () => {
         project={selectedProject} 
         onClose={() => setSelectedProject(null)} 
       />
-
-      <SearchOverlay 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
-      />
+      
+      <ScrollToTop />
       
       {/* Footer */}
       <footer className="px-4 md:px-16 py-10 max-w-[1000px] mx-auto text-[#808080] text-sm relative z-10">
         <div className="flex gap-4 mb-4 text-white text-lg">
            {/* Social Icons could go here */}
         </div>
-        <p className="mb-4">Questions? Ask the AI Search Assistant.</p>
+        <p className="mb-4">Questions? Contact me directly.</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-4 mb-6">
             <span className="hover:underline cursor-pointer">Audio and Subtitles</span>
             <span className="hover:underline cursor-pointer">Help Center</span>

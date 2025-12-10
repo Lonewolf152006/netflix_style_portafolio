@@ -1,3 +1,4 @@
+
 import { Project, Profile } from './types';
 
 export const PROFILES: Profile[] = [
@@ -5,12 +6,7 @@ export const PROFILES: Profile[] = [
     id: '1', 
     name: 'Recruiter', 
     avatar: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' // Classic Red Smile
-  },
-  { 
-    id: '2', 
-    name: 'Developer', 
-    avatar: 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/bf6e4a33850498.56ba69ac3064f.png' // Classic Yellow Smile
-  },
+  }
 ];
 
 // --- INDIVIDUAL PROJECTS DEFINITIONS ---
@@ -20,7 +16,6 @@ const p_sih_llm: Project = {
   title: 'LLM Question Answer System',
   description: 'AI-powered system that answers queries using Large Language Models. Features context understanding, natural language responses, and dataset-based training.',
   imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop', // Digital Brain / AI Network
-  videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-a-blue-brain-978-large.mp4',
   techStack: ['Python', 'LLMs', 'NLP', 'Machine Learning'],
   match: 99,
   year: '2024',
@@ -148,10 +143,10 @@ export const HARDWARE_PROJECTS: Project[] = [
 export const HERO_PROJECT: Project = {
   id: 'hero-main',
   title: 'VEDANT NIKUMBH',
-  description: 'Pursuing B.Tech in Electronics and CS.\n+91 9373325943',
-  imageUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1920&auto=format&fit=crop', // Dark Coding Screen
-  // New Video: Green Matrix Code / Digital Rain - Iconic Developer Aesthetic
-  videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-green-digital-matrix-background-2070-large.mp4',
+  description: '', // Cleared as requested
+  imageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920&auto=format&fit=crop', // Matrix/Tech BG
+  // Cinematic Abstract Red/Black Technology Video (Netflix Style)
+  videoUrl: 'https://videos.pexels.com/video-files/2061191/2061191-uhd_2560_1440_30fps.mp4',
   techStack: [],
   match: 100,
   year: '2024',
@@ -411,6 +406,8 @@ export const CONTACT: Project[] = [
     genre: ['Contact', 'Professional'],
     category: 'Contact',
     link: 'https://www.linkedin.com/in/vedant-nikumbh-27612a329/',
+    icon: 'https://cdn.simpleicons.org/linkedin/white',
+    color: '#0077b5', // LinkedIn Blue
   },
   {
     id: 'contact2',
@@ -423,6 +420,8 @@ export const CONTACT: Project[] = [
     genre: ['Contact', 'Dev'],
     category: 'Contact',
     link: 'https://github.com/Lonewolf152006',
+    icon: 'https://cdn.simpleicons.org/github/white',
+    color: '#ffffff', // GitHub White
   },
   {
     id: 'contact3',
@@ -435,5 +434,7 @@ export const CONTACT: Project[] = [
     genre: ['Contact', 'Message'],
     category: 'Contact',
     link: 'mailto:hello@netfolio.dev',
+    icon: 'https://cdn.simpleicons.org/gmail/white',
+    color: '#ea4335', // Gmail Red
   },
 ];
