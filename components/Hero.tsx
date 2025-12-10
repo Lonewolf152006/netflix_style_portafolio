@@ -13,8 +13,12 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ project, onExploreClick, onAboutClick }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeVideo, setActiveVideo] = useState(HERO_VIDEO_OPTIONS[0]);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
+    // Reset loaded state when video changes to show poster/fallback first
+    setIsVideoLoaded(false);
+    
     if (videoRef.current) {
         // Force reload of video source when activeVideo changes
         videoRef.current.load();
@@ -26,8 +30,7 @@ const Hero: React.FC<HeroProps> = ({ project, onExploreClick, onAboutClick }) =>
         const playPromise = videoRef.current.play();
         if (playPromise !== undefined) {
             playPromise.catch(() => {
-                // Autoplay was prevented - standard browser behavior for unmuted or low-power mode
-                // Silently failing is acceptable for a background video
+                // Autoplay was prevented or failed
             });
         }
     }
@@ -38,18 +41,30 @@ const Hero: React.FC<HeroProps> = ({ project, onExploreClick, onAboutClick }) =>
       {/* Background Media Container */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         
-        {/* Background Video */}
-         <video 
-            ref={videoRef}
-            autoPlay 
-            muted 
-            loop 
-            playsInline
-            poster={activeVideo.thumbnail}
-            className="absolute inset-0 w-full h-full object-cover slow-zoom"
-         >
-             <source src={activeVideo.url} type="video/mp4" />
-         </video>
+        {/* Zoom Wrapper to sync animation between fallback image and video */}
+        <div className="absolute inset-0 w-full h-full slow-zoom">
+            {/* Fallback Image - Visible when video is loading or fails */}
+            <img 
+                src={activeVideo.thumbnail} 
+                alt="Background" 
+                className="absolute inset-0 w-full h-full object-cover"
+            />
+
+            {/* Background Video */}
+             <video 
+                ref={videoRef}
+                autoPlay 
+                muted 
+                loop 
+                playsInline
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onCanPlay={() => setIsVideoLoaded(true)}
+                onLoadedData={() => setIsVideoLoaded(true)}
+                onError={() => setIsVideoLoaded(false)}
+             >
+                 <source src={activeVideo.url} type="video/mp4" />
+             </video>
+        </div>
         
         {/* Cinematic Gradients - Darker overlays for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/40 to-transparent z-10" />

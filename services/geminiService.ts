@@ -14,7 +14,24 @@ let aiClient: GoogleGenAI | null = null;
 
 const getClient = () => {
   if (!aiClient) {
-    aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    // Safety check for deployment environments where process might not be defined (e.g., static sites)
+    let apiKey = '';
+    try {
+      if (typeof process !== 'undefined' && process.env) {
+        apiKey = process.env.API_KEY || '';
+      }
+    } catch (e) {
+      // Ignore reference errors for process
+    }
+
+    if (!apiKey) {
+      console.warn("API Key not found or process not defined. AI features will be disabled.");
+      // We still return a client, but calls might fail or we could handle it upstream.
+      // For now, initializing with a dummy key if missing to avoid immediate crash, calls will fail gracefully.
+      apiKey = 'MISSING_KEY'; 
+    }
+    
+    aiClient = new GoogleGenAI({ apiKey });
   }
   return aiClient;
 };

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import ProfileSelector from './components/ProfileSelector';
 import Navbar from './components/Navbar';
@@ -28,19 +27,21 @@ const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Simulate initial data fetching
+  // Initial app data loading simulation
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1500); // 1.5s loading simulation
+    }, 1500); 
     return () => clearTimeout(timer);
   }, []);
 
   const handleDownloadResume = () => {
-    // Placeholder for PDF download functionality
+    // For deployment: Place a file named 'resume.pdf' in your public/root directory
+    const resumeUrl = '/resume.pdf';
+    
     const link = document.createElement('a');
-    link.href = 'data:application/pdf;base64,JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXwKICAvTWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSCSAgCiAgICA+PgoJPj4KICAvQ29udGVudHMgNSAwIFIKPj4KZW5kb2JqCgo0IDAgb2JqCjw8CiAgL1R5cGUgL0ZvbnQKICAvU3VidHlwZSAvVHlwZTEKICAvQmFzZUZvbnQgL1RpbWVzLVJvbWFuCj4+CmVuZG9iagoKNSAwIG9iago8PAogIC9MZW5ndGggNDQKPj4Kc3RyZWFtCkJUCjcwIDUwIFRECi9GMSAxMiBUZgooSGVsbG8sIHdvcmxkISkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4gCjAwMDAwMDAwNjAgMDAwMDAgbiAKMDAwMDAwMDE1NyAwMDAwMCBuIAowMDAwMDAwMjU1IDAwMDAwIG4gCjAwMDAwMDAzNDQgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKNDQxCiUlRU9GCg=='; // Empty PDF base64
-    link.download = 'Netfolio_Resume.pdf';
+    link.href = resumeUrl;
+    link.download = 'Vedant_Nikumbh_Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -51,10 +52,6 @@ const App: React.FC = () => {
      if (element) {
          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
      }
-  };
-
-  const handleViewProfile = () => {
-    setSelectedProject(MY_PROFILE);
   };
 
   // If no profile selected, show profile selector
